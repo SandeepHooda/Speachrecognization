@@ -21,6 +21,8 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.Manifest;
+import android.media.AudioManager;
+import android.content.Context;
 
 /**
  * Style and such borrowed from the TTS and PhoneListener plugins
@@ -32,6 +34,8 @@ public class SpeechRecognition extends CordovaPlugin {
     public static final String ACTION_SPEECH_RECOGNIZE_STOP = "stop";
     public static final String ACTION_SPEECH_RECOGNIZE_ABORT = "abort";
     public static final String NOT_PRESENT_MESSAGE = "Speech recognition is not present or enabled";
+	private AudioManager mAudioManager;
+    private int mStreamVolume = 0;
 
     private CallbackContext speechRecognizerCallbackContext;
     private boolean recognizerPresent = false;
@@ -74,7 +78,9 @@ public class SpeechRecognition extends CordovaPlugin {
         }
         promptForMic();
     }
-
+	private void muteStreamVolume() {
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
+    }
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         // Dispatcher
@@ -88,6 +94,9 @@ public class SpeechRecognition extends CordovaPlugin {
 
                     @Override
                     public void run() {
+						mAudioManager = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
+					muteStreamVolume();
+					mStreamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                         recognizer = SpeechRecognizer.createSpeechRecognizer(cordova.getActivity().getBaseContext());
                         recognizer.setRecognitionListener(new SpeechRecognitionListner());
                     }
