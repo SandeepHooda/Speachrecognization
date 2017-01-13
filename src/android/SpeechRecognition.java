@@ -94,9 +94,7 @@ public class SpeechRecognition extends CordovaPlugin {
 
                     @Override
                     public void run() {
-						mAudioManager = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
-					muteStreamVolume();
-					mStreamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
                         recognizer = SpeechRecognizer.createSpeechRecognizer(cordova.getActivity().getBaseContext());
                         recognizer.setRecognitionListener(new SpeechRecognitionListner());
                     }
@@ -143,6 +141,9 @@ public class SpeechRecognition extends CordovaPlugin {
 
             @Override
             public void run() {
+										mAudioManager = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
+					muteStreamVolume();
+					mStreamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                 recognizer.startListening(intent);
             }
 
