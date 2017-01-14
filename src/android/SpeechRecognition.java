@@ -159,7 +159,7 @@ public class SpeechRecognition extends CordovaPlugin {
         res.setKeepCallback(true);
         this.speechRecognizerCallbackContext.sendPluginResult(res);
     }
-    private void unmute(boolean abort) {
+    private void unmute() {
 		unmuteStreamVolume();
 	}
     private void stop(boolean abort) {
