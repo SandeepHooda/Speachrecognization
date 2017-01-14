@@ -81,6 +81,9 @@ public class SpeechRecognition extends CordovaPlugin {
 	private void muteStreamVolume() {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
     }
+	private void unmuteStreamVolume() {
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 10, 10);
+    }
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
         // Dispatcher
@@ -162,6 +165,7 @@ public class SpeechRecognition extends CordovaPlugin {
             @Override
             public void run() {
                 recognizer.stopListening();
+				unmuteStreamVolume();
             }
             
         });
