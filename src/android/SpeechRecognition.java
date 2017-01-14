@@ -32,6 +32,7 @@ public class SpeechRecognition extends CordovaPlugin {
     public static final String ACTION_INIT = "init";
     public static final String ACTION_SPEECH_RECOGNIZE_START = "start";
     public static final String ACTION_SPEECH_RECOGNIZE_STOP = "stop";
+	public static final String ACTION_SPEECH_RECOGNIZE_UNMUTE = "unmute";
     public static final String ACTION_SPEECH_RECOGNIZE_ABORT = "abort";
     public static final String NOT_PRESENT_MESSAGE = "Speech recognition is not present or enabled";
 	private AudioManager mAudioManager;
@@ -82,7 +83,7 @@ public class SpeechRecognition extends CordovaPlugin {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
     }
 	private void unmuteStreamVolume() {
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 10, 10);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 15, 15);
     }
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
@@ -121,7 +122,9 @@ public class SpeechRecognition extends CordovaPlugin {
         }
         else if (ACTION_SPEECH_RECOGNIZE_ABORT.equals(action)) {
             stop(true);
-        }
+        } else if (ACTION_SPEECH_RECOGNIZE_UNMUTE.equals(action)) {
+			unmute();
+		}
         else {
             // Invalid action
             String res = "Unknown action: " + action;
@@ -156,7 +159,9 @@ public class SpeechRecognition extends CordovaPlugin {
         res.setKeepCallback(true);
         this.speechRecognizerCallbackContext.sendPluginResult(res);
     }
-    
+    private void unmute(boolean abort) {
+		unmuteStreamVolume();
+	}
     private void stop(boolean abort) {
         this.aborted = abort;
         Handler loopHandler = new Handler(Looper.getMainLooper());

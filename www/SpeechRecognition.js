@@ -73,6 +73,9 @@ SpeechRecognition.prototype.start = function() {
 SpeechRecognition.prototype.stop = function() {
     exec(null, null, "SpeechRecognition", "stop", []);
 };
+SpeechRecognition.prototype.unmute = function() {
+    exec(null, null, "SpeechRecognition", "unmute", []);
+};
 
 SpeechRecognition.prototype.abort = function() {
     exec(null, null, "SpeechRecognition", "abort", []);
